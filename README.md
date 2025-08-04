@@ -6,6 +6,8 @@ This plugin is compatible with **Medusa v2.4.0+** only.
 
 ## Installation & Configuration
 
+Install this plugin by running `npm i @tehaulp/medusa-plugin-resend`
+
 ### `medusa-config.ts`
 
 To enable the plugin, register both the Resend provider and the plugin in your Medusa config:
