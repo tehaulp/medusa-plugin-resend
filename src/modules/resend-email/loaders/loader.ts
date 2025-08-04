@@ -24,6 +24,17 @@ async function loader({
   container,
   options,
 }: LoaderOptions<ResendModuleOptions>) {
+  if (process.env.MEDUSA_WORKER_MODE === "server") {
+    logger.info(
+      "[RESEND PLUGIN] Medusa is in server mode. Plugin will not be loaded"
+    );
+
+    // Inject empty options to avoid service constructor conflicts
+    container.register("options", asValue({}));
+    container.register("templatesRegistry", asValue(new Map()));
+
+    return;
+  }
   logger.info("[RESEND PLUGIN] Loading plugin...");
 
   if (!options) {

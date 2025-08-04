@@ -1,6 +1,10 @@
 import { logger } from "@medusajs/framework";
 import { MedusaError } from "@medusajs/framework/utils";
-import { ResendModuleOptions, ServiceInjectedDependencies, StoredTemplate } from "../../types/types";
+import {
+  ResendModuleOptions,
+  ServiceInjectedDependencies,
+  StoredTemplate,
+} from "../../types/types";
 
 /**
  * Service that manages email templates rendered using Handlebars.
@@ -10,8 +14,8 @@ class ResendEmailModuleService {
   protected options_: ResendModuleOptions;
 
   constructor({ templatesRegistry, options }: ServiceInjectedDependencies) {
-    this.templatesRegistry_ = templatesRegistry;
-    this.options_ = options;
+    this.templatesRegistry_ = templatesRegistry ?? new Map();
+    this.options_ = options ?? {};
   }
 
   /**

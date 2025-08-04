@@ -6,11 +6,15 @@ This plugin is compatible with **Medusa v2.4.0+** only.
 
 ## Installation & Configuration
 
-Install this plugin by running `npm i @tehaulp/medusa-plugin-resend`
+Install the plugin using the following command:
+
+```bash
+npm i @tehaulp/medusa-plugin-resend
+```
 
 ### `medusa-config.ts`
 
-To enable the plugin, register both the Resend provider and the plugin in your Medusa config:
+To enable the plugin, register both the Resend provider and the plugin itself in your Medusa configuration:
 
 ```ts
 module.exports = defineConfig({
@@ -49,9 +53,42 @@ module.exports = defineConfig({
 });
 ```
 
+### Template Directory
+
+If you specify a `templatesDir`, its path must be relative to the Medusa root directory (e.g., `/src/templates/emails`).
+
+This setup works out-of-the-box in development (`npm run dev`), but you might encounter issues in production.
+
+In production, Medusa compiles everything into the `.medusa/server` directory **except** custom files like those in `/src/templates`. As a result, the templates may not be found at runtime.
+
+#### Solution: Copy Templates in Production
+
+To solve this, make sure the templates are included in the production build directory. Here are a couple of ways to do this:
+
+**Using Docker:**
+
+```Dockerfile
+RUN npm run build
+COPY --from=builder ./src/templates/emails ./server/src/templates/emails
+```
+
+**Using `package.json` scripts:**
+
+```json
+"scripts": {
+  "build": "medusa build && cpx \"src/emails/**/*\" dist/emails"
+}
+```
+
+Then install the `cpx` package:
+
+```bash
+npm i --save-dev cpx
+```
+
 ### `.env`
 
-Set the following environment variables (in `worker` or `shared` mode):
+Define the following environment variables (for `worker` or `shared` mode):
 
 ```env
 MEDUSA_BACKEND_URL=<YOUR_BACKEND_URL>
@@ -59,44 +96,49 @@ RESEND_API_KEY=<YOUR_API_KEY>
 RESEND_FROM=<noreply@yourorg.com>
 ```
 
+---
+
 ## Usage
 
 ### Built-in Subscribers
 
-Currently, the plugin includes a built-in subscriber for the `auth.password_reset` event.
+This plugin currently includes a built-in subscriber for the `auth.password_reset` event.
 
-When triggered, it sends an email using the template:
-`/src/templates/emails/auth-password-reset.hbs`
+When this event is triggered, the plugin sends an email using the template:
 
-This template **must**:
+```
+/src/templates/emails/auth-password-reset.hbs
+```
+
+Your template **must**:
 
 - Be named exactly `auth-password-reset.hbs`
 - Use [Handlebars](https://handlebarsjs.com/) syntax
-- Include the `{{resetUrl}}` variable
+- Contain a `{{resetUrl}}` variable
 
-Example:
+**Example:**
 
 ```handlebars
-<a href="{{resetUrl}}" class="button">Réinitialiser mon mot de passe</a>
+<a href="{{resetUrl}}" class="button">Reset my password</a>
 ```
 
-You can also provide an optional `.json` metadata file with the same name to customize email content:
+You can also include an optional `.json` file with the same name in the same templates directory to customize the email content:
 
 ```json
 {
-  "subject": "Réinitialisation de mot de passe"
+  "subject": "Password reset verification"
 }
 ```
 
-More built-in subscribers will be added in future versions.
+Additional built-in subscribers will be added in future releases.
 
 ### Custom Subscribers
 
-To fully customize email handling, create your own subscriber that resolves the Notification Service and uses your preferred logic.
+To have full control over email behavior, you can implement your own subscriber. Resolve the Notification Service and implement your custom logic accordingly.
 
 ---
 
-## Template Example (auth-password-reset.hbs)
+## Template Example: `auth-password-reset.hbs`
 
 ```handlebars
 <html lang="fr">
