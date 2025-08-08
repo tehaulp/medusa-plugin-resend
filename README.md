@@ -102,9 +102,12 @@ RESEND_FROM=<noreply@yourorg.com>
 
 ### Built-in Subscribers
 
-This plugin currently includes a built-in subscriber for the `auth.password_reset` event.
+This plugin currently includes 3 built-in subscribers for these events:
+- `auth.password_reset`
+- `invite.created`
+- `invite.resent`
 
-When this event is triggered, the plugin sends an email using the template:
+When these events are triggered, the plugin sends an email using the respective template:
 
 ```
 /src/templates/emails/auth-password-reset.hbs
@@ -117,6 +120,9 @@ Your template **must**:
 - Contain a `{{resetUrl}}` variable
 
 **Example:**
+
+Free example templates are available in this package under /package/.medusa/server/src/templates/emails.
+Your are free to re-use them for your integration.
 
 ```handlebars
 <a href="{{resetUrl}}" class="button">Reset my password</a>
