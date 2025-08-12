@@ -4693,11 +4693,6 @@ encodeurl@~1.0.2:
 encodeurl@~2.0.0:
   version "2.0.0"
 
-encoding@^0.1.0:
-  version "0.1.13"
-  dependencies:
-    iconv-lite "^0.6.2"
-
 entities@^4.2.0, entities@^4.4.0:
   version "4.5.0"
 
@@ -5209,11 +5204,6 @@ iconv-lite@^0.4.24, iconv-lite@0.4.24:
   version "0.4.24"
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
-
-iconv-lite@^0.6.2:
-  version "0.6.3"
-  dependencies:
-    safer-buffer ">= 2.1.2 < 3.0.0"
 
 ieee754@^1.1.13:
   version "1.2.1"
@@ -6086,11 +6076,6 @@ picomatch@^4.0.2:
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-4.0.3.tgz"
   integrity sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==
 
-picomatch@3.x:
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/picomatch/-/picomatch-3.0.1.tgz"
-  integrity sha512-I3EurrIQMlRc9IaAZnqRR044Phh2DXY+55o7uJ0V+hYZAcQYSuFWsc9q5PvyDHUSCe1Qxn/iBz+78s86zWnGag==
-
 pify@^2.3.0:
   version "2.3.0"
 
@@ -6569,7 +6554,7 @@ safe-buffer@5.1.2:
 safe-stable-stringify@^2.3.1:
   version "2.5.0"
 
-"safer-buffer@>= 2.1.2 < 3", "safer-buffer@>= 2.1.2 < 3.0.0":
+"safer-buffer@>= 2.1.2 < 3":
   version "2.1.2"
 
 scheduler@^0.23.2:
