@@ -35,6 +35,7 @@ async function loader({
 
     return;
   }
+
   logger.info("[RESEND PLUGIN] Loading plugin...");
 
   if (!options) {
@@ -44,11 +45,17 @@ async function loader({
     );
   }
 
+  let templatesDir: string;
+
   // Set templates directory (custom or default)
-  const templatesDir = join(
-    process.cwd(),
-    options.templatesDir || "src/templates/emails"
-  );
+  if (options.templatesDir) {
+    templatesDir = join(process.cwd(), options.templatesDir);
+  } else {
+    logger.warn(
+      "[RESEND PLUGIN] 'templatesDir' not defined in config. Using default templates"
+    );
+    templatesDir = join(__dirname, "../../../templates/emails");
+  }
 
   // Set default events array if not provided
   if (!Array.isArray(options.events)) {

@@ -1,4 +1,5 @@
 import type { Logger } from "@medusajs/types";
+import { Attachment } from "resend";
 
 /**
  * Type representing a compiled Handlebars template function.
@@ -9,8 +10,9 @@ export type TemplateFn = (vars: Record<string, any>) => string;
  * Configuration options for the Resend plugin.
  */
 export interface ResendModuleOptions {
-  templatesDir: string;
-  events: string[];
+  templatesDir?: string;
+  events?: string[];
+  sendInvoiceOnOrder?: boolean;
 }
 
 /**
@@ -60,6 +62,7 @@ export interface ResendOptions {
 export interface WorkflowInput {
   templateKey: string;
   data: Record<string, any>;
+  attachments?: Attachment[];
 }
 
 /**
@@ -68,4 +71,5 @@ export interface WorkflowInput {
 export interface StepInput {
   templateKey: string;
   data: Record<string, any>;
+  attachments?: Attachment[];
 }

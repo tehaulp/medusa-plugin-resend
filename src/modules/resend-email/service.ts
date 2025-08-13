@@ -15,7 +15,15 @@ class ResendEmailModuleService {
 
   constructor({ templatesRegistry, options }: ServiceInjectedDependencies) {
     this.templatesRegistry_ = templatesRegistry ?? new Map();
-    this.options_ = options ?? {};
+    this.options_ = options ?? { events: [] };
+
+    if (!this.options_.events) {
+      this.options_.events = [];
+    }
+
+    if (!this.options_.sendInvoiceOnOrder) {
+      this.options_.sendInvoiceOnOrder = false;
+    }
   }
 
   /**
@@ -23,8 +31,12 @@ class ResendEmailModuleService {
    */
   public async isEventSet(event: string): Promise<boolean> {
     return (
-      typeof event === "string" && this.options_.events.includes(event.trim())
+      typeof event === "string" && this.options_.events!.includes(event.trim())
     );
+  }
+
+  public async useDocumentsPlugin(): Promise<boolean> {
+    return this.options_.sendInvoiceOnOrder!;
   }
 
   /**

@@ -1,6 +1,5 @@
 import { logger } from "@medusajs/framework";
 import { Modules } from "@medusajs/framework/utils";
-import { INotificationModuleService } from "@medusajs/framework/types";
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 
 import ResendEmailModuleService from "../../modules/resend-email/service";
@@ -10,9 +9,13 @@ import { StepInput } from "../../types/types";
 /**
  * Step to render and send an email using the Resend plugin.
  */
-async function stepFunction({ templateKey, data }: StepInput, { container }) {
-  const notificationModuleService: INotificationModuleService =
-    container.resolve(Modules.NOTIFICATION);
+async function stepFunction(
+  { templateKey, data, attachments }: StepInput,
+  { container }
+) {
+  const notificationModuleService: any = container.resolve(
+    Modules.NOTIFICATION
+  );
 
   const resendService: ResendEmailModuleService =
     container.resolve(RESEND_EMAIL_MODULE);
@@ -31,6 +34,7 @@ async function stepFunction({ templateKey, data }: StepInput, { container }) {
       channel: "email",
       template: html,
       data: { subject },
+      attachments: attachments,
     });
 
     logger.info(`[RESEND PLUGIN] Email queued to ${data.toEmail}`);
